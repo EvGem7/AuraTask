@@ -47,6 +47,10 @@
                 tools:node="remove" />
         </provider>
 
+        <receiver
+            android:name=".feature.notification.NotificationDismissedReceiver"
+            android:exported="false" />
+
     </application>
 
 </manifest>

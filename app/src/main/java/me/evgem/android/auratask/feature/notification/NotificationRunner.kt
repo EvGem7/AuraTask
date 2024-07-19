@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import me.evgem.android.auratask.domain.repository.NotificationRepository
@@ -39,7 +38,6 @@ class NotificationRunner(
             }
             val request = OneTimeWorkRequestBuilder<NotificationWorker>()
                 .setInitialDelay(durationMinutes, TimeUnit.MINUTES)
-                .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
                 .build()
             workManager.enqueueUniqueWork(
                 NAME_DISMISS_RULE,

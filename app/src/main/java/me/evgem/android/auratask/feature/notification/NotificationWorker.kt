@@ -52,7 +52,7 @@ class NotificationWorker(
     private fun getDeleteIntent(): PendingIntent {
         val context = applicationContext
         val intent = Intent(context, NotificationDismissedReceiver::class.java)
-        return PendingIntent.getBroadcast(context, 134, intent, PendingIntent.FLAG_IMMUTABLE)
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
     }
 
     private fun getContent(bootRecords: List<BootRecord>): String {
