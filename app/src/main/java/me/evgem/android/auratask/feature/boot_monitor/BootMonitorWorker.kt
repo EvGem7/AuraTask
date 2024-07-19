@@ -2,17 +2,15 @@ package me.evgem.android.auratask.feature.boot_monitor
 
 import android.content.Context
 import androidx.work.CoroutineWorker
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import me.evgem.android.auratask.domain.repository.BootRecordRepository
-import me.evgem.android.auratask.feature.notification.NotificationWorker
-import java.util.concurrent.TimeUnit
+import me.evgem.android.auratask.feature.notification.NotificationRunner
 
 class BootMonitorWorker(
     appContext: Context,
     params: WorkerParameters,
     private val bootRecordRepository: BootRecordRepository,
+    private val notificationRunner: NotificationRunner,
 ) : CoroutineWorker(appContext, params) {
 
     companion object {
@@ -22,12 +20,7 @@ class BootMonitorWorker(
     override suspend fun doWork(): Result {
         val timestamp = inputData.getLong(KEY_TIMESTAMP, System.currentTimeMillis())
         bootRecordRepository.logBoot(timestamp)
-        startNotificationWorker()
+        notificationRunner.run()
         return Result.success()
-    }
-
-    private fun startNotificationWorker() {
-        val request = PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES).build()
-        WorkManager.getInstance(applicationContext).enqueue(request)
     }
 }

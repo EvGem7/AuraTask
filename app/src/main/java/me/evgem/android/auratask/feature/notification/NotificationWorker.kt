@@ -1,7 +1,9 @@
 package me.evgem.android.auratask.feature.notification
 
 import android.Manifest
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -41,9 +43,16 @@ class NotificationWorker(
         NotificationCompat.Builder(context, notificationHelper.getDefaultChannelId())
             .setContentText(content)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setDeleteIntent(getDeleteIntent())
             .build()
             .let { NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, it) }
         return Result.success()
+    }
+
+    private fun getDeleteIntent(): PendingIntent {
+        val context = applicationContext
+        val intent = Intent(context, NotificationDismissedReceiver::class.java)
+        return PendingIntent.getBroadcast(context, 134, intent, PendingIntent.FLAG_IMMUTABLE)
     }
 
     private fun getContent(bootRecords: List<BootRecord>): String {

@@ -3,6 +3,7 @@ package me.evgem.android.auratask
 import android.app.Application
 import me.evgem.android.auratask.data.db.databaseModule
 import me.evgem.android.auratask.data.repository.repositoryModule
+import me.evgem.android.auratask.di.appModule
 import me.evgem.android.auratask.di.workManagerModule
 import me.evgem.android.auratask.presentation.presentationModule
 import org.koin.android.ext.koin.androidContext
@@ -24,6 +25,7 @@ class App : Application() {
                 workManagerModule,
                 repositoryModule,
                 presentationModule,
+                appModule,
             )
             workManagerFactory()
         }
