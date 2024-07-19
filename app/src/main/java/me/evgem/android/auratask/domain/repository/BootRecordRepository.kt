@@ -7,4 +7,6 @@ interface BootRecordRepository {
     suspend fun logBoot(timestamp: Long)
 
     suspend fun getLastTwoRecords(): List<BootRecord>
+
+    suspend fun getAllRecords(): List<BootRecord>
 }

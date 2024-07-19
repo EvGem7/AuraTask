@@ -19,6 +19,10 @@ class DefaultBootRecordRepository(
         return bootRecordDao.getLastTwoRecords().map { it.toDomain() }
     }
 
+    override suspend fun getAllRecords(): List<BootRecord> {
+        return bootRecordDao.getAllRecords().map { it.toDomain() }
+    }
+
     private fun BootRecordEntity.toDomain(): BootRecord {
         return BootRecord(
             id = id,

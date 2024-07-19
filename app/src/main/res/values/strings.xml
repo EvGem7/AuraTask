@@ -3,4 +3,5 @@
     <string name="default_notification_channel_name">Default notification channel</string>
     <string name="notification_no_records">No boots detected</string>
     <string name="notification_one_record">The boot was detected = %1$s</string>
+    <string name="main_records_empty">No boots detected</string>
 </resources>

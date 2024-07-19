@@ -12,4 +12,7 @@ interface BootRecordDao {
 
     @Query("SELECT * FROM BootRecordEntity ORDER BY timestamp DESC LIMIT 2")
     suspend fun getLastTwoRecords(): List<BootRecordEntity>
+
+    @Query("SELECT * FROM BootRecordEntity ORDER BY timestamp")
+    suspend fun getAllRecords(): List<BootRecordEntity>
 }
