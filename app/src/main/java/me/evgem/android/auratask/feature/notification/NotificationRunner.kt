@@ -17,11 +17,11 @@ class NotificationRunner(
     companion object {
         private const val NAME_15_MINUTE_RULE = "15_MINUTE_RULE"
         private const val NAME_DISMISS_RULE = "DISMISS_RULE"
-        private const val DISMISSAL_LIMIT = 5
     }
 
     fun run() {
-        val is15MinRule = notificationRepository.dismissalCount % DISMISSAL_LIMIT == 0
+        val dismissalLimit = notificationRepository.totalDismissalsAllowed
+        val is15MinRule = notificationRepository.dismissalCount % dismissalLimit == 0
         val workManager = WorkManager.getInstance(context)
         if (is15MinRule) {
             val request = PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
@@ -34,8 +34,8 @@ class NotificationRunner(
             workManager.cancelUniqueWork(NAME_DISMISS_RULE)
         } else {
             val durationMinutes = notificationRepository.run {
-                dismissalCount % DISMISSAL_LIMIT * 20L
-            }
+                dismissalCount % dismissalLimit * notificationRepository.intervalBetweenDismissalsMinutes
+            }.toLong()
             val request = OneTimeWorkRequestBuilder<NotificationWorker>()
                 .setInitialDelay(durationMinutes, TimeUnit.MINUTES)
                 .build()

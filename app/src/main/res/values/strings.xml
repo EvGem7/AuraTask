@@ -4,4 +4,6 @@
     <string name="notification_no_records">No boots detected</string>
     <string name="notification_one_record">The boot was detected = %1$s</string>
     <string name="main_records_empty">No boots detected</string>
+    <string name="main_total_dismissals_allowed">Total dismissals allowed</string>
+    <string name="main_interval_between_dismissals">Interval between dismissals (minutes)</string>
 </resources>

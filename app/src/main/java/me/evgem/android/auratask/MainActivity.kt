@@ -3,17 +3,21 @@ package me.evgem.android.auratask
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import me.evgem.android.auratask.domain.model.BootRecord
 import me.evgem.android.auratask.domain.repository.BootRecordRepository
+import me.evgem.android.auratask.domain.repository.NotificationRepository
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             // don't care
         }
+
+    private val notificationRepository: NotificationRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +44,23 @@ class MainActivity : AppCompatActivity() {
 
         // TODO use view model
         displayRecordsData()
+
+        findViewById<EditText>(R.id.mainTotalDismissalsAllowed).let { editText ->
+            editText.setText(notificationRepository.totalDismissalsAllowed.toString())
+            editText.addTextChangedListener { text ->
+                text?.toString()?.toIntOrNull()?.let {
+                    notificationRepository.totalDismissalsAllowed = it
+                }
+            }
+        }
+        findViewById<EditText>(R.id.mainIntervalBetweenDismissals).let { editText ->
+            editText.setText(notificationRepository.intervalBetweenDismissalsMinutes.toString())
+            editText.addTextChangedListener { text ->
+                text?.toString()?.toIntOrNull()?.let {
+                    notificationRepository.intervalBetweenDismissalsMinutes = it
+                }
+            }
+        }
     }
 
     private fun displayRecordsData() {
