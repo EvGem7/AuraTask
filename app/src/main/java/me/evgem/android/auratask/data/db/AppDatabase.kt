@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [
-        BootEntity::class,
+        BootRecordEntity::class,
     ],
     version = 1,
 )
@@ -15,5 +15,5 @@ abstract class AppDatabase : RoomDatabase() {
         const val NAME = "default-db"
     }
 
-    abstract fun bootDao(): BootDao
+    abstract fun bootDao(): BootRecordDao
 }
